@@ -1,0 +1,25 @@
+{
+  "name": "scheduler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tmp009/scheduler-ai.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tmp009/scheduler-ai/issues"
+  },
+  "homepage": "https://github.com/tmp009/scheduler-ai#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "openai": "^4.33.0",
+    "yargs": "^17.7.2"
+  }
+}
