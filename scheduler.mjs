@@ -38,6 +38,10 @@ async function main() {
     for (const sceneNumber of orderedScenes.scenes) {
         const scene = scriptJson.scenes.find(s => s.scene_number == sceneNumber);
 
+        if (!scene) {
+            break;
+        }
+
         newScriptJson.scenes.push(scene);
     }
 
@@ -47,7 +51,7 @@ async function main() {
 
 async function scheduleScript(script, prompt) {
     const messages = [
-        {role:'system', content: 'You are film scheduler. You will take a movie script and return JSON object with key "scenes" which is an array containing scene numbers in the requetsed order.'},
+        {role:'system', content: 'You are film scheduler. You will take a movie script and return JSON object with key "scenes" which is an array containing scene numbers as string in the requested order. NEVER put the same scene more than once.'},
         {role:'user', content: 'Script content: ' + script},
         {role:'user', content: 'Request: ' + prompt},
     ]
