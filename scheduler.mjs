@@ -35,6 +35,12 @@ async function main() {
         scenes: []
     }
 
+    if (orderedScenes.error) {
+        console.error(orderedScenes.error)
+
+        process.exit(1)
+    }
+
     for (const sceneNumber of orderedScenes.scenes) {
         const scene = scriptJson.scenes.find(s => s.scene_number == sceneNumber);
 
@@ -45,15 +51,22 @@ async function main() {
         newScriptJson.scenes.push(scene);
     }
 
+    for (const s of scriptJson.scenes) {
+        if (!orderedScenes.scenes.includes(String(s.scene_number))) {
+            newScriptJson.scenes.push(s.scene_number);
+        }
+    }
+
 
     await fs.writeFile(argv.output, JSON.stringify(newScriptJson, null, 4))
 }
 
 async function scheduleScript(script, prompt) {
     const messages = [
-        {role:'system', content: 'You are film scheduler. You will take a movie script and return JSON object with key "scenes" which is an array containing scene numbers as string in the requested order. NEVER put the same scene more than once.'},
+        {role:'system', content: 'You are film scheduler. You will rearrange movie scenes in the requested manner. You will take a movie script and return JSON object with key "scenes" which is an array containing scene numbers as string. Do not handle vague tasks or impossible task. add key "error" with a string explaining the error. NEVER put the same scene more than once. Always return all scene numbers even if unaffected. Do not delete or ommit scenes unless explictly asked'},
+        {role:'system', content: 'You can for example order by time (morning, day, evening, night), location/set, synopis, etc.'},
         {role:'user', content: 'Script content: ' + script},
-        {role:'user', content: 'Request: ' + prompt},
+        {role:'user', content: prompt},
     ]
 
     const completion = await openai.chat.completions.create({
@@ -71,7 +84,7 @@ function jsonToString(scriptJson) {
     const sceneTexts = []
 
     for (const scene of scriptJson.scenes) {
-        let sceneText = `${scene.scene_number}. ${scene.set.type.join('/')} ${scene.time}  ${scene.location}\nSynopsis: ${scene.synopsis}\n`
+        let sceneText = `${scene.scene_number}. ${scene.set.type.join('/')} TIME: ${scene.time}; LOCATION: ${scene.location};\nSynopsis: ${scene.synopsis}\n`
         sceneTexts.push(sceneText);
     }
 
