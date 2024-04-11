@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsonformatter/2.6.7/json-formatter.min.css" /> -->
+    <title>Scheduler AI tester</title>
+</head>
+<script src="main.js" defer></script>
+<style>
+    #content {
+        text-align: center;
+    }
+
+    #prompt-area {
+        display: inline-flex;
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+
+    pre {
+        border: 1px solid #ddd;
+        font-family: monospace;
+        white-space: pre-wrap;
+        background-color: #f4f4f4;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<body>
+    <div id="content">
+        <h1>Scheduler</h1>
+
+        <div id="prompt-area">
+            <textarea name="" id="prompt-textarea" cols="50" rows="5"></textarea>
+            <button id="run-prompt">Run</button>
+            <button id="file-button" onclick="document.getElementById('file-input').click()" >Upload</button>
+            <input id="file-input" type="file"></input>
+        </div>
+
+        <p id="error"></p>
+    </div>
+
+    <pre>No script found. Please upload a valid <b>script.json</b> file.</pre>
+</body>
+</html>
